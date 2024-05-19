@@ -14,7 +14,15 @@
 <body>
   <h1>Summit</h1>
   <main>
-    <p>Work in progress</p>
+    <ul>
+      {{ range . }}
+      <li>
+        <div>
+          <strong>{{ .Name }}</strong> - {{ .HeightMetres }}m ({{ .GridReference }})
+        </div>
+      </li>
+      {{ end }}
+    </ul>
   </main>
 </body>
 

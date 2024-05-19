@@ -29,7 +29,7 @@ func main() {
 	mux := http.NewServeMux()
 
 	mux.Handle("GET /static/", http.FileServerFS(staticFS))
-	mux.HandleFunc("GET /{$}", handleRoot(templates))
+	mux.HandleFunc("GET /{$}", handleIndex(templates))
 	mux.HandleFunc("GET /health", handleHealth())
 
 	var handler http.Handler
@@ -38,9 +38,23 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8000", handler))
 }
 
-func handleRoot(templates *template.Template) http.HandlerFunc {
+func handleIndex(templates *template.Template) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		templates.Execute(w, nil)
+
+		data := []Peak{
+			{
+				Name:          "Scafell Pike",
+				HeightMetres:  978.07,
+				GridReference: "NY215072",
+			},
+			{
+				Name:          "Scafell",
+				HeightMetres:  963.9,
+				GridReference: "NY206064",
+			},
+		}
+
+		templates.Execute(w, data)
 	}
 }
 
